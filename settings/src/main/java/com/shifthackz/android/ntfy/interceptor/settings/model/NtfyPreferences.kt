@@ -4,4 +4,5 @@ data class NtfyPreferences(
     val baseUrl: String = "",
     val username: String = "",
     val password: String = "",
+    val topic: String = "",
 )

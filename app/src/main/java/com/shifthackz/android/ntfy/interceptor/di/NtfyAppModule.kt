@@ -5,4 +5,5 @@ import com.shifthackz.android.ntfy.interceptor.settings.di.ntfySettingsModule
 val ntfyAppModule = ntfySettingsModule +
         ntfyProvidersModule +
         ntfyApiModule +
+        ntfyInterceptorsModule +
         ntfyPresentationModule

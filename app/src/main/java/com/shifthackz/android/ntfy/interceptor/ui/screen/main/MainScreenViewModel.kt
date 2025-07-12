@@ -10,16 +10,10 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shifthackz.android.ntfy.interceptor.R
-import com.shifthackz.android.ntfy.interceptor.settings.model.NtfyPreferences
 import com.shifthackz.android.ntfy.interceptor.settings.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,6 +23,9 @@ class MainScreenViewModel(
 
     private val _baseUrl = MutableStateFlow(TextFieldValue(""))
     val baseUrl = _baseUrl.asStateFlow()
+
+    private val _topic = MutableStateFlow(TextFieldValue(""))
+    val topic = _topic.asStateFlow()
 
     private val _username = MutableStateFlow(TextFieldValue(""))
     val username = _username.asStateFlow()
@@ -41,20 +38,23 @@ class MainScreenViewModel(
 
     init {
         viewModelScope.launch {
-            settingsRepository.observe().first()
-                .let {
-                    _baseUrl.value = TextFieldValue(it.baseUrl)
-                    _username.value = TextFieldValue(it.username)
-                    _password.value = TextFieldValue(it.password)
-
-                }
+            settingsRepository.observe().first().let { settings ->
+                _baseUrl.value = TextFieldValue(settings.baseUrl)
+                _username.value = TextFieldValue(settings.username)
+                _password.value = TextFieldValue(settings.password)
+                _topic.value = TextFieldValue(settings.topic)
+            }
         }
-
     }
 
     fun updateBaseUrl(value: TextFieldValue) = viewModelScope.launch {
         _baseUrl.update { value }
         settingsRepository.saveBaseUrl(value.text)
+    }
+
+    fun updateTopic(value: TextFieldValue) = viewModelScope.launch {
+        _topic.update { value }
+        settingsRepository.saveTopic(value.text)
     }
 
     fun updateUsername(value: TextFieldValue) = viewModelScope.launch {
@@ -85,7 +85,7 @@ class MainScreenViewModel(
 
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "NTFY Interceptor",
+            context.getString(R.string.test_notification_channel_name),
             NotificationManager.IMPORTANCE_HIGH
         )
 

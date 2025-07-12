@@ -6,4 +6,5 @@ internal object SettingsKey {
     val BaseUrl = stringPreferencesKey("ntfy_base_url")
     val Username = stringPreferencesKey("ntfy_username")
     val Password = stringPreferencesKey("ntfy_password")
+    val Topic = stringPreferencesKey("ntfy_topic")
 }

@@ -2,10 +2,13 @@
 
 package com.shifthackz.android.ntfy.interceptor.ui.screen.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,7 +33,12 @@ import com.shifthackz.android.ntfy.interceptor.R
 import org.koin.androidx.compose.koinViewModel
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
+import com.shifthackz.android.ntfy.interceptor.core.extensions.appVersionFormatted
 
 @Composable
 @Preview
@@ -42,6 +50,7 @@ fun MainScreen(
     val scrollState = rememberScrollState()
 
     val baseUrl by viewModel.baseUrl.collectAsStateWithLifecycle()
+    val topic by viewModel.topic.collectAsStateWithLifecycle()
     val username by viewModel.username.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
     val passwordVisible by viewModel.passwordVisible.collectAsStateWithLifecycle()
@@ -51,7 +60,29 @@ fun MainScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(stringResource(R.string.app_name))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Image(
+                                modifier = Modifier.size(32.dp),
+                                painter = painterResource(R.drawable.ic_app_logo),
+                                contentDescription = null,
+                            )
+                            Text(stringResource(R.string.app_name))
+                        }
+                        Text(
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            text = context.appVersionFormatted,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.W300,
+                        )
+                    }
                 }
             )
         }
@@ -80,6 +111,14 @@ fun MainScreen(
                 value = baseUrl,
                 onValueChange = viewModel::updateBaseUrl,
                 label = { Text(stringResource(R.string.hint_base_url)) },
+                maxLines = 1,
+            )
+
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = topic,
+                onValueChange = viewModel::updateTopic,
+                label = { Text(stringResource(R.string.hint_topic)) },
                 maxLines = 1,
             )
 

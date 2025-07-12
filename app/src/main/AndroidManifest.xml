@@ -30,7 +30,7 @@
         </activity>
 
         <receiver
-            android:name=".receiver.DeviceBootedReceiver"
+            android:name="com.shifthackz.android.ntfy.interceptor.core.receiver.DeviceBootedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -39,7 +39,7 @@
         </receiver>
 
         <service
-            android:name=".service.PushNotificationsInterceptorService"
+            android:name="com.shifthackz.android.ntfy.interceptor.core.service.PushNotificationsInterceptorService"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">

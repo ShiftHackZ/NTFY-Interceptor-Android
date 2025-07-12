@@ -5,6 +5,7 @@ import com.shifthackz.android.ntfy.interceptor.model.Priority
 import com.shifthackz.android.ntfy.interceptor.request.PostNotificationRequest
 import com.shifthackz.android.ntfy.interceptor.security.NtfyApiBaseUrlProvider
 import com.shifthackz.android.ntfy.interceptor.security.NtfyApiCredentialsProvider
+import com.shifthackz.android.ntfy.interceptor.security.NtfyApiTopicProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.request.basicAuth
 import io.ktor.client.request.post
@@ -15,18 +16,19 @@ import kotlinx.coroutines.flow.first
 
 internal class NtfyApiImpl(
     private val client: HttpClient,
-     private val baseUrlProvider: NtfyApiBaseUrlProvider,
+    private val baseUrlProvider: NtfyApiBaseUrlProvider,
     private val credentialsProvider: NtfyApiCredentialsProvider,
+    private val topicProvider: NtfyApiTopicProvider,
 ) : NtfyApi {
 
     override suspend fun postNotification(
-        topic: String,
         title: String,
         message: String,
         priority: Priority
     ): Result<Unit> {
         try {
             val baseUrl = baseUrlProvider.first()
+            val topic = topicProvider.first()
             val (username, password) = credentialsProvider.first()
             val requestPayload = PostNotificationRequest(
                 topic = topic,

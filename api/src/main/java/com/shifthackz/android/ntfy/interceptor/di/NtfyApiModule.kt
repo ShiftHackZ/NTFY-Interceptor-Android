@@ -5,6 +5,7 @@ import com.shifthackz.android.ntfy.interceptor.api.NtfyApi
 import com.shifthackz.android.ntfy.interceptor.api.NtfyApiImpl
 import com.shifthackz.android.ntfy.interceptor.security.NtfyApiBaseUrlProvider
 import com.shifthackz.android.ntfy.interceptor.security.NtfyApiCredentialsProvider
+import com.shifthackz.android.ntfy.interceptor.security.NtfyApiTopicProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -43,9 +44,10 @@ val ntfyApiModule = module {
 
     single<NtfyApi> {
         NtfyApiImpl(
-            get(),
-            get<NtfyApiBaseUrlProvider>(named("NtfyApiBaseUrlProvider")),
-            get<NtfyApiCredentialsProvider>(named("NtfyApiCredentialsProvider"))
+            client = get(),
+            baseUrlProvider = get<NtfyApiBaseUrlProvider>(named("NtfyApiBaseUrlProvider")),
+            credentialsProvider = get<NtfyApiCredentialsProvider>(named("NtfyApiCredentialsProvider")),
+            topicProvider = get<NtfyApiTopicProvider>(named("NtfyApiTopicProvider"))
         )
     }
 }

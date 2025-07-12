@@ -1,22 +1,20 @@
-package com.shifthackz.android.ntfy.interceptor.service
+package com.shifthackz.android.ntfy.interceptor.core.service
 
-import android.app.Notification
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import com.shifthackz.android.ntfy.interceptor.api.NtfyApi
-import com.shifthackz.android.ntfy.interceptor.model.Priority
+import com.shifthackz.android.ntfy.interceptor.core.PushNotificationsInterceptor
+import com.shifthackz.android.ntfy.interceptor.core.model.PushNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class PushNotificationsInterceptorService : NotificationListenerService() {
 
-    private val ntfyApi: NtfyApi by inject()
+    private val interceptor: PushNotificationsInterceptor by inject()
 
     private val serviceScope = CoroutineScope(
         SupervisorJob() +
@@ -34,18 +32,12 @@ class PushNotificationsInterceptorService : NotificationListenerService() {
             return
         }
 
-        val application = sbn.packageName
-        val title = sbn.notification.extras.getString(Notification.EXTRA_TITLE) ?: ""
-        val body = sbn.notification.extras.getString(Notification.EXTRA_TEXT) ?: ""
-
-        serviceScope.launch {
-            ntfyApi.postNotification(
-                topic = "test",
-                title = "[$application] $title",
-                message = body,
-                priority = Priority.High
-            )
-        }
+        val pushNotification = PushNotification(sbn)
+        Log.i(
+            "NTFYI",
+            "Delivering push notification to interceptor. Seed: ${pushNotification.hashCode()}"
+        )
+        interceptor.onNewNotification(serviceScope, pushNotification)
     }
 
     override fun onDestroy() {

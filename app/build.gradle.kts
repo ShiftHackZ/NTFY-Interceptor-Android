@@ -12,8 +12,8 @@ android {
         applicationId = "com.shifthackz.android.ntfy.interceptor"
         minSdk = 31
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.0.1-alpha"
+        versionCode = 2
+        versionName = "0.0.2-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":api"))
     implementation(project(":settings"))
     implementation(libs.koin.android)

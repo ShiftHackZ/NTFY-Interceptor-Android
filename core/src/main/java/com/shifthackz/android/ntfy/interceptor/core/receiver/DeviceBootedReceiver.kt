@@ -1,4 +1,4 @@
-package com.shifthackz.android.ntfy.interceptor.receiver
+package com.shifthackz.android.ntfy.interceptor.core.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

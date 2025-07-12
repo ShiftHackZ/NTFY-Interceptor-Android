@@ -9,9 +9,13 @@ interface SettingsRepository {
 
     fun getBaseUrl(): Flow<String>
 
+    fun getTopic(): Flow<String>
+
     suspend fun saveBaseUrl(value: String): Result<Unit>
 
     suspend fun saveUsername(value: String): Result<Unit>
 
     suspend fun savePassword(value: String): Result<Unit>
+
+    suspend fun saveTopic(value: String): Result<Unit>
 }

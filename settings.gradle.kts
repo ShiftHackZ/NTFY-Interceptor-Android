@@ -23,3 +23,4 @@ rootProject.name = "NTFY Interceptor"
 include(":app")
 include(":api")
 include(":settings")
+include(":core")

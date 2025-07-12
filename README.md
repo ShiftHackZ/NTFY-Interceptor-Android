@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/ShiftHackZ/NTFY-Interceptor-Android/refs/heads/master/docs/assets/ntfy.png" width="100" />
+
 # NTFY Interceptor Android
 
 ⚠️ **This project is in alpha stage.** Use at your own risk.

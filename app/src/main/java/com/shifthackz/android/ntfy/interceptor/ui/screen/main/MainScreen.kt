@@ -66,20 +66,20 @@ fun MainScreen(
             Button(onClick = {
                 viewModel.setupNecessaryPermissions(context)
             }) {
-                Text("Setup permissions!")
+                Text(stringResource(R.string.action_setup_permissions))
             }
 
             Button(onClick = {
                 viewModel.sendTestLocalNotification(context)
             }) {
-                Text("Test")
+                Text(stringResource(R.string.action_send_test_notification))
             }
 
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = baseUrl,
                 onValueChange = viewModel::updateBaseUrl,
-                label = { Text("Base URL") },
+                label = { Text(stringResource(R.string.hint_base_url)) },
                 maxLines = 1,
             )
 
@@ -87,7 +87,7 @@ fun MainScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = username,
                 onValueChange = viewModel::updateUsername,
-                label = { Text("Username") },
+                label = { Text(stringResource(R.string.hint_username)) },
                 maxLines = 1,
             )
 
@@ -95,7 +95,7 @@ fun MainScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
                 onValueChange = viewModel::updatePassword,
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.hint_password)) },
                 maxLines = 1,
                 visualTransformation = if (passwordVisible) {
                     VisualTransformation.None

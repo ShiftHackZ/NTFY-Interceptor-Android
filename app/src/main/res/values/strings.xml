@@ -3,4 +3,11 @@
 
     <string name="test_notification_title">Test notification title.</string>
     <string name="test_notification_body">Test notification body. Seed: %1$s.</string>
+
+    <string name="action_setup_permissions">Setup permissions!</string>
+    <string name="action_send_test_notification">Test</string>
+
+    <string name="hint_base_url">Base URL</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 </resources>

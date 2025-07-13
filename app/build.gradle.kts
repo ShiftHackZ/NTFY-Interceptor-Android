@@ -41,7 +41,9 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":common"))
     implementation(project(":api"))
+    implementation(project(":database"))
     implementation(project(":settings"))
     implementation(libs.koin.android)
     implementation(libs.koin.core)
@@ -55,6 +57,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.timber)
+    implementation(libs.coil.compose)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

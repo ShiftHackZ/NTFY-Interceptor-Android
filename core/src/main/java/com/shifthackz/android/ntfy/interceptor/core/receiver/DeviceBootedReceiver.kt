@@ -3,21 +3,21 @@ package com.shifthackz.android.ntfy.interceptor.core.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import timber.log.Timber
 
 class DeviceBootedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null) {
-            Log.w("NTFYI", "Boot receiver got null intent.")
+            Timber.w("Boot receiver got null intent.")
             return
         }
 
         if (intent.action != Intent.ACTION_BOOT_COMPLETED) {
-            Log.w("NTFYI", "Boot receiver got intent with wrong action.")
+            Timber.w("Boot receiver got intent with wrong action.")
             return
         }
 
-        Log.i("NTFYI", "Device boot complete.")
+        Timber.i("Device boot complete.")
     }
 }

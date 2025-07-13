@@ -2,15 +2,15 @@ package com.shifthackz.android.ntfy.interceptor.core.service
 
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
 import com.shifthackz.android.ntfy.interceptor.core.PushNotificationsInterceptor
-import com.shifthackz.android.ntfy.interceptor.core.model.PushNotification
+import com.shifthackz.android.ntfy.interceptor.common.model.PushNotification
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class PushNotificationsInterceptorService : NotificationListenerService() {
 
@@ -19,30 +19,27 @@ class PushNotificationsInterceptorService : NotificationListenerService() {
     private val serviceScope = CoroutineScope(
         SupervisorJob() +
                 Dispatchers.IO +
-                CoroutineExceptionHandler { _, e -> Log.e("NTFYI", "Error occurred!", e) }
+                CoroutineExceptionHandler { _, e -> Timber.e(e, "Error occurred!") }
     )
 
     override fun onCreate() {
-        Log.i("NTFYI", "Interceptor service successfully created!")
+        Timber.i("Interceptor service successfully created!")
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         if (sbn == null) {
-            Log.w("NTFYI", "Status bar notification is null, skipping.")
+            Timber.w("Status bar notification is null, skipping.")
             return
         }
 
         val pushNotification = PushNotification(sbn)
-        Log.i(
-            "NTFYI",
-            "Delivering push notification to interceptor. Seed: ${pushNotification.hashCode()}"
-        )
+        Timber.i("Delivering push notification to interceptor. Seed: ${pushNotification.hashCode()}")
         interceptor.onNewNotification(serviceScope, pushNotification)
     }
 
     override fun onDestroy() {
         serviceScope.cancel("PushNotificationsInterceptorService has been destroyed!")
         super.onDestroy()
-        Log.i("NTFYI", "Interceptor service has beed destroyed!")
+        Timber.i("Interceptor service has beed destroyed!")
     }
 }

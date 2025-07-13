@@ -1,6 +1,5 @@
 package com.shifthackz.android.ntfy.interceptor.di
 
-import android.util.Log
 import com.shifthackz.android.ntfy.interceptor.api.NtfyApi
 import com.shifthackz.android.ntfy.interceptor.api.NtfyApiImpl
 import com.shifthackz.android.ntfy.interceptor.security.NtfyApiBaseUrlProvider
@@ -16,6 +15,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import timber.log.Timber
 
 val ntfyApiModule = module {
 
@@ -34,7 +34,7 @@ val ntfyApiModule = module {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        Log.d("HTTP", message)
+                        Timber.d(message)
                     }
                 }
                 level = LogLevel.ALL

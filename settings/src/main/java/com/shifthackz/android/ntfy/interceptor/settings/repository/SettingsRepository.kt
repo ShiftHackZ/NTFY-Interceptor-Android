@@ -1,5 +1,6 @@
 package com.shifthackz.android.ntfy.interceptor.settings.repository
 
+import com.shifthackz.android.ntfy.interceptor.common.model.InstalledApp
 import com.shifthackz.android.ntfy.interceptor.settings.model.NtfyPreferences
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,10 @@ interface SettingsRepository {
     suspend fun savePassword(value: String): Result<Unit>
 
     suspend fun saveTopic(value: String): Result<Unit>
+
+    fun observeInstalledApps(): Flow<List<InstalledApp>>
+
+    suspend fun updateAppOverride(packageName: String, isEnabled: Boolean)
+
+    suspend fun isAppEnabled(packageName: String): Boolean
 }

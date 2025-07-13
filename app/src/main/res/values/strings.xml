@@ -5,11 +5,22 @@
     <string name="test_notification_title">Test notification title.</string>
     <string name="test_notification_body">Test notification body. Seed: %1$s.</string>
 
-    <string name="action_setup_permissions">Setup permissions!</string>
-    <string name="action_send_test_notification">Test</string>
+    <string name="action_setup_permissions">Setup notification access permissions</string>
+    <string name="action_send_test_notification">Send test Push Notification</string>
 
     <string name="hint_base_url">Base URL</string>
     <string name="hint_topic">Topic</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
+
+    <string name="bottom_nav_apps">Apps</string>
+    <string name="bottom_nav_notifications">Pushes</string>
+    <string name="bottom_nav_logs">Logs</string>
+    <string name="bottom_nav_settings">Settings</string>
+    <string name="apps_empty_state_title">No apps found.</string>
+    <string name="apps_empty_state_sub_title">Please ensure this app has permissions to query another app installs.</string>
+    <string name="logs_empty_state_title">No logs yet…</string>
+    <string name="logs_empty_state_sub_title">Logs will be shown here as soon as NTFY Interceptor application will capture them.</string>
+    <string name="notifications_empty_state_title">No notifications yet…</string>
+    <string name="notifications_empty_state_sub_title">Notifications will be shown here as soon as Android OS will receive them.</string>
 </resources>

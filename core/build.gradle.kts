@@ -33,7 +33,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(libs.koin.android)
     implementation(libs.koin.core)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.timber)
 }

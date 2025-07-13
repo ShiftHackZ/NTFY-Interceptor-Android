@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.shifthackz.android.ntfy.interceptor.database.contract.LogContract
 
 @Entity(tableName = LogContract.TABLE)
-data class LogEntity(
+internal data class LogEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = LogContract.ID)
     val id: Long = 0L,

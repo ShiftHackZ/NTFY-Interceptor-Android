@@ -15,8 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import com.shifthackz.android.ntfy.interceptor.R
 
 @Composable
 fun <T : Any> ListComponent(
@@ -74,6 +78,18 @@ fun ListEmptyStateComponent(
             text = subTitle,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+@PreviewFontScale
+@PreviewScreenSizes
+private fun ListEmptyStateComponentPreview() {
+    ThemedPreview {
+        ListEmptyStateComponent(
+            title = stringResource(R.string.logs_empty_state_title),
+            subTitle = stringResource(R.string.logs_empty_state_sub_title),
         )
     }
 }

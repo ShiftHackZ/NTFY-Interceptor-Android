@@ -20,14 +20,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.unit.dp
 import com.shifthackz.android.ntfy.interceptor.common.model.PushNotification
 import com.shifthackz.android.ntfy.interceptor.ui.formatters.formatDate
 import com.shifthackz.android.ntfy.interceptor.ui.formatters.formatTime
 
 @Composable
-@Preview
 fun NotificationListItem(
     modifier: Modifier = Modifier,
     notification: PushNotification = PushNotification(),
@@ -85,4 +84,16 @@ fun NotificationListItem(
             )
         }
     }
+}
+
+@Composable
+@PreviewFontScale
+private fun NotificationListItemPreview() {
+    NotificationListItem(
+        notification = PushNotification(
+            packageName = "com.shifthackz.aisdv1.app",
+            title = "Generation successful!",
+            body = "Your image was successfully generated.",
+        )
+    )
 }

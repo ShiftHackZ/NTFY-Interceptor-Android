@@ -2,7 +2,9 @@ package com.shifthackz.android.ntfy.interceptor.common.model
 
 import android.app.Notification
 import android.service.notification.StatusBarNotification
+import androidx.compose.runtime.Stable
 
+@Stable
 data class PushNotification(
     val packageName: String = "",
     val title: String = "",

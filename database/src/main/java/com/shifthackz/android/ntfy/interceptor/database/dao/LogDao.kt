@@ -9,7 +9,7 @@ import com.shifthackz.android.ntfy.interceptor.database.entity.LogEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface LogDao {
+internal interface LogDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(log: LogEntity)

@@ -1,5 +1,6 @@
 package com.shifthackz.android.ntfy.interceptor.di
 
+import com.shifthackz.android.ntfy.interceptor.ui.screen.apps.AppsSettingsViewModel
 import com.shifthackz.android.ntfy.interceptor.ui.screen.home.HomeViewModel
 import com.shifthackz.android.ntfy.interceptor.ui.screen.log.LogViewModel
 import com.shifthackz.android.ntfy.interceptor.ui.screen.settings.SettingsViewModel
@@ -9,6 +10,7 @@ import org.koin.dsl.module
 
 val ntfyPresentationModule = module {
     viewModelOf(::HomeViewModel)
+    viewModelOf(::AppsSettingsViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::NotificationsViewModel)
     viewModelOf(::LogViewModel)

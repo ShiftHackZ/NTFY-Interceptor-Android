@@ -6,8 +6,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shifthackz.android.ntfy.interceptor.R
+import com.shifthackz.android.ntfy.interceptor.common.model.Log
 import com.shifthackz.android.ntfy.interceptor.ui.components.ListComponent
 import com.shifthackz.android.ntfy.interceptor.ui.components.ListEmptyStateComponent
 import com.shifthackz.android.ntfy.interceptor.ui.components.LogListItem
@@ -17,13 +20,19 @@ import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 
 @Composable
-@Preview
 fun LogScreen(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = koinViewModel(),
 ) {
     val logs by viewModel.logs.collectAsStateWithLifecycle(emptyList())
+    LogScreenContent(logs, modifier)
+}
 
+@Composable
+private fun LogScreenContent(
+    logs: List<Log>,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -38,8 +47,8 @@ fun LogScreen(
                 .fillMaxSize(),
             emptyState = {
                 ListEmptyStateComponent(
-                    title = "No logs yet...",
-                    subTitle = "Logs will be shown here as soon as NTFY Interceptor application will capture them.",
+                    title = stringResource(R.string.logs_empty_state_title),
+                    subTitle = stringResource(R.string.logs_empty_state_sub_title),
                 )
             },
             content = { log ->
@@ -47,4 +56,28 @@ fun LogScreen(
             }
         )
     }
+}
+
+@Composable
+@PreviewFontScale
+private fun LogScreenPreview() {
+    LogScreenContent(
+        logs = buildList {
+            repeat(5) {
+                add(
+                    Log(
+                        tag = "NTFYI",
+                        message = "Service [$it] has been created!",
+                        level = "info",
+                    ),
+                )
+            }
+        }
+    )
+}
+
+@Composable
+@PreviewFontScale
+private fun LogScreenEmptyStatePreview() {
+    LogScreenContent(emptyList())
 }

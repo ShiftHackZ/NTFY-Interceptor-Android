@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.unit.dp
 import com.shifthackz.android.ntfy.interceptor.common.model.Log
 import com.shifthackz.android.ntfy.interceptor.ui.formatters.formatDate
@@ -119,4 +120,16 @@ private fun logLevelColor(level: String): Color {
         "debug" -> MaterialTheme.colorScheme.secondary
         else -> MaterialTheme.colorScheme.outline
     }
+}
+
+@Composable
+@PreviewFontScale
+private fun LogListItemPreview() {
+    LogListItem(
+        log = Log(
+            tag = "NTFYI",
+            message = "Service has been created!",
+            level = "info",
+        ),
+    )
 }

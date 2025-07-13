@@ -15,20 +15,33 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shifthackz.android.ntfy.interceptor.ui.screen.apps.AppsSettingsScreen
 import com.shifthackz.android.ntfy.interceptor.ui.screen.log.LogScreen
 import com.shifthackz.android.ntfy.interceptor.ui.screen.settings.SettingsScreen
 import com.shifthackz.android.ntfy.interceptor.ui.screen.notifications.NotificationsScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-@Preview
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val route by viewModel.route.collectAsStateWithLifecycle()
+    HomeScreenContent(
+        route = route,
+        modifier = modifier,
+        onNavigate = viewModel::navigate,
+    )
+}
+
+@Composable
+private fun HomeScreenContent(
+    route: HomeRoute,
+    modifier: Modifier = Modifier,
+    onNavigate: (HomeRoute) -> Unit = {},
+) {
     Scaffold(
         modifier = modifier,
         bottomBar = {
@@ -36,7 +49,7 @@ fun HomeScreen(
                 HomeRoute.entries.forEach { entry ->
                     NavigationBarItem(
                         selected = route == entry,
-                        onClick = { viewModel.navigate(entry) },
+                        onClick = { onNavigate(entry) },
                         icon = {
                             Icon(
                                 imageVector = entry.imageVector,
@@ -65,10 +78,17 @@ fun HomeScreen(
                 HomeRoute.Notifications -> NotificationsScreen()
                 HomeRoute.Settings -> SettingsScreen()
                 HomeRoute.Logs -> LogScreen()
+                HomeRoute.Apps -> AppsSettingsScreen()
             }
         }
         LaunchedEffect(route) {
             pagerState.animateScrollToPage(HomeRoute.entries.indexOf(route))
         }
     }
+}
+
+@Composable
+@PreviewFontScale
+private fun HomeScreenPreview() {
+    HomeScreenContent(HomeRoute.entries.first())
 }

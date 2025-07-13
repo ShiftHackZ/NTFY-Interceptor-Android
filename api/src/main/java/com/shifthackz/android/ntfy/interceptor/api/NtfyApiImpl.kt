@@ -22,6 +22,7 @@ internal class NtfyApiImpl(
 ) : NtfyApi {
 
     override suspend fun postNotification(
+        packageName: String,
         title: String,
         message: String,
         priority: Priority
@@ -31,7 +32,7 @@ internal class NtfyApiImpl(
             val topic = topicProvider.first()
             val (username, password) = credentialsProvider.first()
             val requestPayload = PostNotificationRequest(
-                topic = topic,
+                topic = "${topic}-${packageName.replace(".", "-")}",
                 title = title,
                 message = message,
                 priority = priority.value,

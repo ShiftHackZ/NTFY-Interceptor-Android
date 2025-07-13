@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,58 +28,75 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shifthackz.android.ntfy.interceptor.R
-import org.koin.androidx.compose.koinViewModel
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.sp
 import com.shifthackz.android.ntfy.interceptor.core.extensions.appVersionFormatted
+import com.shifthackz.android.ntfy.interceptor.ui.components.PreviewFontScaleApi35
 import com.shifthackz.android.ntfy.interceptor.ui.components.TopHomeRouteAppBar
 import com.shifthackz.android.ntfy.interceptor.ui.screen.home.HomeRoute
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-@Preview
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
-    val scrollState = rememberScrollState()
-
     val baseUrl by viewModel.baseUrl.collectAsStateWithLifecycle()
     val topic by viewModel.topic.collectAsStateWithLifecycle()
     val username by viewModel.username.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
     val passwordVisible by viewModel.passwordVisible.collectAsStateWithLifecycle()
+    SettingsScreenContent(
+        modifier = modifier,
+        baseUrl = baseUrl,
+        topic = topic,
+        username = username,
+        password = password,
+        passwordVisible = passwordVisible,
+        onUpdateBaseUrl = viewModel::updateBaseUrl,
+        onUpdateTopic = viewModel::updateTopic,
+        onUpdateUsername = viewModel::updateUsername,
+        onUpdatePassword = viewModel::updatePassword,
+        onTogglePasswordVisibility = viewModel::togglePasswordVisibility,
+        onSetupPermissions = { viewModel.setupNecessaryPermissions(context) },
+        onSendTestPushNotification = { viewModel.sendTestLocalNotification(context) },
+    )
+}
 
+@Composable
+@PreviewFontScaleApi35
+private fun SettingsScreenContent(
+    modifier: Modifier = Modifier,
+    baseUrl: TextFieldValue = TextFieldValue(""),
+    topic: TextFieldValue = TextFieldValue(""),
+    username: TextFieldValue = TextFieldValue(""),
+    password: TextFieldValue = TextFieldValue(""),
+    passwordVisible: Boolean = false,
+    onUpdateBaseUrl: (TextFieldValue) -> Unit = {},
+    onUpdateTopic: (TextFieldValue) -> Unit = {},
+    onUpdateUsername: (TextFieldValue) -> Unit = {},
+    onUpdatePassword: (TextFieldValue) -> Unit = {},
+    onTogglePasswordVisibility: () -> Unit = {},
+    onSetupPermissions: () -> Unit = {},
+    onSendTestPushNotification: () -> Unit = {},
+) {
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
     Scaffold(
         modifier = modifier,
-        topBar = {
-            TopHomeRouteAppBar(route = HomeRoute.Settings)
-//            TopAppBar(
-//                title = {
-//                    Row(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically,
-//                    ) {
-
-
-//                    }
-//                }
-//            )
-        }
+        topBar = { TopHomeRouteAppBar(route = HomeRoute.Settings) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -92,7 +111,7 @@ fun SettingsScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = baseUrl,
-                onValueChange = viewModel::updateBaseUrl,
+                onValueChange = onUpdateBaseUrl,
                 label = { Text(stringResource(R.string.hint_base_url)) },
                 maxLines = 1,
             )
@@ -100,7 +119,7 @@ fun SettingsScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = topic,
-                onValueChange = viewModel::updateTopic,
+                onValueChange = onUpdateTopic,
                 label = { Text(stringResource(R.string.hint_topic)) },
                 maxLines = 1,
             )
@@ -108,7 +127,7 @@ fun SettingsScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = username,
-                onValueChange = viewModel::updateUsername,
+                onValueChange = onUpdateUsername,
                 label = { Text(stringResource(R.string.hint_username)) },
                 maxLines = 1,
             )
@@ -116,7 +135,7 @@ fun SettingsScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
-                onValueChange = viewModel::updatePassword,
+                onValueChange = onUpdatePassword,
                 label = { Text(stringResource(R.string.hint_password)) },
                 maxLines = 1,
                 visualTransformation = if (passwordVisible) {
@@ -125,7 +144,7 @@ fun SettingsScreen(
                     PasswordVisualTransformation()
                 },
                 trailingIcon = {
-                    IconButton(onClick = viewModel::togglePasswordVisibility) {
+                    IconButton(onClick = onTogglePasswordVisibility) {
                         Icon(
                             imageVector = if (passwordVisible) {
                                 Icons.Default.Visibility
@@ -142,18 +161,14 @@ fun SettingsScreen(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    viewModel.setupNecessaryPermissions(context)
-                },
+                onClick = onSetupPermissions,
             ) {
                 Text(stringResource(R.string.action_setup_permissions))
             }
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    viewModel.sendTestLocalNotification(context)
-                },
+                onClick = onSendTestPushNotification,
             ) {
                 Text(stringResource(R.string.action_send_test_notification))
             }

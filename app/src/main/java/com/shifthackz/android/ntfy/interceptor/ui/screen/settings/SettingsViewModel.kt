@@ -1,4 +1,4 @@
-package com.shifthackz.android.ntfy.interceptor.ui.screen.main
+package com.shifthackz.android.ntfy.interceptor.ui.screen.settings
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainScreenViewModel(
+class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 

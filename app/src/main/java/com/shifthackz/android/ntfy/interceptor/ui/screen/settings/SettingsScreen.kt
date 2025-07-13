@@ -1,12 +1,17 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.shifthackz.android.ntfy.interceptor.ui.screen.main
+package com.shifthackz.android.ntfy.interceptor.ui.screen.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -19,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,12 +43,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.shifthackz.android.ntfy.interceptor.core.extensions.appVersionFormatted
+import com.shifthackz.android.ntfy.interceptor.ui.components.TopHomeRouteAppBar
+import com.shifthackz.android.ntfy.interceptor.ui.screen.home.HomeRoute
 
 @Composable
 @Preview
-fun MainScreen(
+fun SettingsScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainScreenViewModel = koinViewModel(),
+    viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -58,54 +64,31 @@ fun MainScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Image(
-                                modifier = Modifier.size(32.dp),
-                                painter = painterResource(R.drawable.ic_app_logo),
-                                contentDescription = null,
-                            )
-                            Text(stringResource(R.string.app_name))
-                        }
-                        Text(
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            text = context.appVersionFormatted,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.W300,
-                        )
-                    }
-                }
-            )
+            TopHomeRouteAppBar(route = HomeRoute.Settings)
+//            TopAppBar(
+//                title = {
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        verticalAlignment = Alignment.CenterVertically,
+//                    ) {
+
+
+//                    }
+//                }
+//            )
         }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
+                .fillMaxSize()
                 .verticalScroll(scrollState)
+                .imePadding()
+                .navigationBarsPadding()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Button(onClick = {
-                viewModel.setupNecessaryPermissions(context)
-            }) {
-                Text(stringResource(R.string.action_setup_permissions))
-            }
-
-            Button(onClick = {
-                viewModel.sendTestLocalNotification(context)
-            }) {
-                Text(stringResource(R.string.action_send_test_notification))
-            }
-
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = baseUrl,
@@ -154,6 +137,48 @@ fun MainScreen(
                     }
                 }
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    viewModel.setupNecessaryPermissions(context)
+                },
+            ) {
+                Text(stringResource(R.string.action_setup_permissions))
+            }
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    viewModel.sendTestLocalNotification(context)
+                },
+            ) {
+                Text(stringResource(R.string.action_send_test_notification))
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    modifier = Modifier.size(44.dp),
+                    painter = painterResource(R.drawable.ic_app_logo),
+                    contentDescription = null,
+                )
+                Column {
+                    Text(stringResource(R.string.app_name))
+                    Text(
+                        text = context.appVersionFormatted,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W300,
+                    )
+                }
+            }
         }
     }
 }

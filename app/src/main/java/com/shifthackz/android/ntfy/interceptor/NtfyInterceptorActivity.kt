@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.shifthackz.android.ntfy.interceptor.ui.screen.main.MainScreen
+import com.shifthackz.android.ntfy.interceptor.ui.screen.home.HomeScreen
 import com.shifthackz.android.ntfy.interceptor.ui.theme.NTFYInterceptorTheme
 
 class NtfyInterceptorActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class NtfyInterceptorActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NTFYInterceptorTheme {
-                MainScreen()
+                HomeScreen()
             }
         }
     }
